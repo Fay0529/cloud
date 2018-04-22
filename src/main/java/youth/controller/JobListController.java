@@ -8,15 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import youth.bean.JobListBean;
 import youth.bean.ResultMessageBean;
 import youth.bean.SearchBean;
 import youth.blservice.JobBLService;
 import youth.blservice.JobListBLService;
+import youth.model.JobClassificationStandard;
+import youth.model.WordFrequency;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -35,7 +34,6 @@ public class JobListController {
     @Autowired
     public JobListController(JobListBLService jobListBLService){
         this.jobListBLService=jobListBLService;
-
     }
 
       /*
@@ -51,8 +49,6 @@ public class JobListController {
     public List<JobListBean> getSavedJobList(String phone) {
         //return "hhh";
         return jobListBLService.getSavedJobList(phone);
-
-
 
     }
 
@@ -70,9 +66,6 @@ public class JobListController {
     public List<JobListBean> getRecomandJobList(String phone) {
         //return "hhh";
         return jobListBLService.getRecomandJobList(phone);
-
-
-
     }
 
 //       /*
@@ -111,9 +104,35 @@ public class JobListController {
     public util.Page<JobListBean> search(String keyword, int page, int num) {
         //return "hhh";
         return jobListBLService.search(keyword, page, num);
+    }
 
+
+        /*
+    得到热门搜索词汇（前10最热）
+     */
+
+    @ApiOperation(value = "得到热门搜索词汇", notes = "可能状态码：0,1,9<br>登录成功返回签名")
+    @GetMapping("/getTop10HotWord")
+    public List<WordFrequency> getHotSearchWord() {
+
+        return jobListBLService.getHotSearchWord();
 
     }
+
+        /*
+    得到热门搜索职业（前10最热）
+     */
+
+    @ApiOperation(value = "得到热门搜索职业", notes = "可能状态码：0,1,9<br>登录成功返回签名")
+    @GetMapping("/getTop10HotJob")
+    public List<JobClassificationStandard> getHotJob() {
+
+        return jobListBLService.getHotJob();
+
+    }
+
+
+
 
 
 }

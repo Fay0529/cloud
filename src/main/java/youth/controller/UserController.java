@@ -83,7 +83,6 @@ public class UserController {
     public ResultMessageBean editPassword(String phone, String password) {
        return userBLService.editPassword(phone,password);
 
-
     }
 
 
@@ -261,7 +260,6 @@ public class UserController {
 
     @RequestMapping("/hello")
     public String say() {
-
         return "Helloxixiix";
     }
 

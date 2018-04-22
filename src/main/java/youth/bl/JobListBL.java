@@ -65,6 +65,10 @@ public class JobListBL implements JobListBLService {
     private KeywordsRepository keywordsRepository;
     @Autowired
     private JobClassificationRepository jobClassificationRepository;
+    @Autowired
+    private WordFrequencyRepository wordFrequencyRepository;
+    @Autowired
+    private JobClassificationStandardRepository jobClassificationStandardRepository;
 
     @Override
     public List<JobListBean> getSavedJobList(String phone) {
@@ -91,6 +95,8 @@ public class JobListBL implements JobListBLService {
      */
     @Override
     public util.Page<JobListBean> searchJob(final @RequestBody SearchBean searchBean) {
+
+        jobClassificationStandardRepository.searchPlus(searchBean.getJobName());
 
         //searchBean里面的属性在这里默认不为空，所以前端要在搜索时必须保证所有选项都不为空
         util.Page<JobListBean> res = new util.Page<JobListBean>();
@@ -194,6 +200,15 @@ public class JobListBL implements JobListBLService {
      */
     @Override
     public util.Page<JobListBean> search(String keyword, int page, int num) {
+
+        if(wordFrequencyRepository.findByWord(keyword)==null){
+            wordFrequencyRepository.save(new WordFrequency(keyword,1));
+        }
+        else{
+            wordFrequencyRepository.searchPlus(keyword);
+        }
+
+
         String jp= FirstLetterUtil.toJP(keyword);
       //  int classification=0;
         List<Keywords> keywordsList=keywordsRepository.findThroughKey(jp);
@@ -260,8 +275,16 @@ public class JobListBL implements JobListBLService {
 
     }
 
+    @Override
+    public List<WordFrequency> getHotSearchWord() {
+        return wordFrequencyRepository.getTop10HotWord();
+    }
 
-//    @Transactional
+    @Override
+    public List<JobClassificationStandard> getHotJob() {
+        return jobClassificationStandardRepository.getTop10HotWord();
+    }
+    //    @Transactional
 //    public util.Page<EduTeachers> query(final String tname, final String sex, final Stringdegree, final String orgname) {
 //        //TODO Auto-generated method stub
 //        return teacherDao.findAll(new Specification<EduTeachers>() {
