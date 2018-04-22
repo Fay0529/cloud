@@ -12,13 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
-import util.FirstLetterUtil;
-import util.LocationUtils;
 import youth.bean.JobListBean;
 import youth.bean.SearchBean;
 import youth.blservice.JobListBLService;
 import youth.dao.*;
 import youth.model.*;
+import youth.util.FirstLetterUtil;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -94,12 +93,12 @@ public class JobListBL implements JobListBLService {
     搜索职业
      */
     @Override
-    public util.Page<JobListBean> searchJob(final @RequestBody SearchBean searchBean) {
+    public youth.util.Page<JobListBean> searchJob(final @RequestBody SearchBean searchBean) {
 
         jobClassificationStandardRepository.searchPlus(searchBean.getJobName());
 
         //searchBean里面的属性在这里默认不为空，所以前端要在搜索时必须保证所有选项都不为空
-        util.Page<JobListBean> res = new util.Page<JobListBean>();
+        youth.util.Page<JobListBean> res = new youth.util.Page<JobListBean>();
         res.setSize(searchBean.getNum());
         res.setPage(searchBean.getPage());
 
@@ -199,7 +198,7 @@ public class JobListBL implements JobListBLService {
     模糊搜索
      */
     @Override
-    public util.Page<JobListBean> search(String keyword, int page, int num) {
+    public youth.util.Page<JobListBean> search(String keyword, int page, int num) {
 
         if(wordFrequencyRepository.findByWord(keyword)==null){
             wordFrequencyRepository.save(new WordFrequency(keyword,1));
@@ -231,7 +230,7 @@ public class JobListBL implements JobListBLService {
             }
         }
         System.out.println("【开始】"+classificationList.size());
-        util.Page<JobListBean> res = new util.Page<JobListBean>();
+        youth.util.Page<JobListBean> res = new youth.util.Page<JobListBean>();
         res.setSize(num);
         res.setPage(page);
 

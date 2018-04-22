@@ -1,4 +1,4 @@
-package util;
+package youth.util;
 
 /**
  * @author lw

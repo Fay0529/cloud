@@ -17,8 +17,8 @@ public interface JobListBLService {
 
     public List<JobListBean> getSavedJobList(String phone);
     public List<JobListBean> getRecomandJobList(String phone);
-    public util.Page<JobListBean> searchJob(@RequestBody SearchBean searchBean);
-    public util.Page<JobListBean> search(String keyword,int page,int num);
+    public youth.util.Page<JobListBean> searchJob(@RequestBody SearchBean searchBean);
+    public youth.util.Page<JobListBean> search(String keyword, int page, int num);
     public List<WordFrequency> getHotSearchWord();
     public List<JobClassificationStandard> getHotJob();
 

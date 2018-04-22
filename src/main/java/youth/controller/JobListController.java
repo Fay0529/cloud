@@ -76,7 +76,7 @@ public class JobListController {
     @ApiOperation(value = "搜索职业", notes = "可能状态码：0,1,9<br>登录成功返回签名")
 
     @PostMapping("/job/search")
-    public util.Page<JobListBean> searchJob(@RequestBody SearchBean searchBean) {
+    public youth.util.Page<JobListBean> searchJob(@RequestBody SearchBean searchBean) {
         //return "hhh";
         return jobListBLService.searchJob(searchBean);
 }
@@ -101,7 +101,7 @@ public class JobListController {
 
     })
     @PostMapping("/fuzzySearch")
-    public util.Page<JobListBean> search(String keyword, int page, int num) {
+    public youth.util.Page<JobListBean> search(String keyword, int page, int num) {
         //return "hhh";
         return jobListBLService.search(keyword, page, num);
     }
